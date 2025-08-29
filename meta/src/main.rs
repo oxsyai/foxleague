@@ -1,4 +1,4 @@
 fn main() {
-    // Generates ABI / interact CLI for the contract
+    // Generates ABI / CLIs for the contract types
     multiversx_sc_meta::cli_main::<foxleague_sc::ContractObj>();
 }

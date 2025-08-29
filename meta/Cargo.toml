@@ -6,4 +6,4 @@ publish = false
 
 [dependencies]
 multiversx-sc-meta = "0.50"
-foxleague-sc = { path = ".." }
+foxleague-sc = { path = "../contract" }

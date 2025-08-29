@@ -1,12 +1,14 @@
-[package]
-name = "foxleague-sc"
+[workspace]
+members = [
+    "contract",
+    "meta"
+]
+
+[workspace.package]
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
 
-[lib]
-path = "src/lib.rs"
-crate-type = ["rlib"]
-
-[dependencies]
+[workspace.dependencies]
 multiversx-sc = "0.50"
+multiversx-sc-meta = "0.50"

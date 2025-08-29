@@ -1,6 +1,6 @@
 // types.rs
-use multiversx_sc::derive_imports::*;
 use multiversx_sc::api::ManagedTypeApi;
+use multiversx_sc::derive_imports::*;
 use multiversx_sc::types::{BigUint, ManagedAddress, ManagedVec};
 
 #[type_abi]
