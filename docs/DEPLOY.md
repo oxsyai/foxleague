@@ -17,6 +17,10 @@ Artifacts built by CI (and locally via Makefile):
 make wasm
 make abi
 
+Prereqs (for both flows)
+python3 -m pip install -U multiversx-sdk-cli jq
+mxpy --version || true
+
 1) Quickstart (scripts/ops)
 
 Tip: copy scripts/ops/.env.example → scripts/ops/.env and fill values to avoid long commands.
