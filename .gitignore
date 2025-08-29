@@ -5,3 +5,8 @@
 .DS_Store
 # VS Code
 .vscode/
+
+# build artifacts
+artifacts/
+contract/output/
+output/
