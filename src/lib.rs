@@ -5,7 +5,7 @@
 use multiversx_sc::imports::*;
 
 mod types;
-use types::{Tournament, TournamentStatus, Registration};
+use types::Tournament;
 
 #[multiversx_sc::contract]
 pub trait ScFoxsy {
