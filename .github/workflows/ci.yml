@@ -12,6 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+
+      - name: Install deps (wasm target + binaryen + jq)
+        run: |
+          rustup target add wasm32-unknown-unknown
+          sudo apt-get update
+          sudo apt-get install -y binaryen jq
+
       - uses: Swatinem/rust-cache@v2
 
       - name: Format check
@@ -34,5 +41,5 @@ jobs:
         with:
           name: foxleague-artifacts
           path: |
-            target/wasm32-unknown-unknown/release/foxleague_sc.wasm
+            artifacts/wasm/**
             artifacts/abi/**

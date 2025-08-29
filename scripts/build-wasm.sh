@@ -1,31 +1,29 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Build the meta binary from the workspace
+# Ensure wasm target on runner
+rustup target add wasm32-unknown-unknown >/dev/null 2>&1 || true
+
+# Build meta binary
 cargo build -p foxleague-sc-meta
 
-# Run the MVX builder from contract/meta
+# MultiversX meta build (produces contract/output/*)
 pushd contract/meta >/dev/null
 ../../target/debug/foxleague-sc-meta build
 popd >/dev/null
 
-# Collect the produced .wasm into a stable artifacts path
+# Collect artifact
 mkdir -p artifacts/wasm
-
-# Known output locations for MVX meta build:
-# - contract/output/*.wasm
-# - output/*.wasm (rare)
 WASM_SRC=""
 if compgen -G "contract/output/*.wasm" > /dev/null; then
   WASM_SRC=$(ls -1 contract/output/*.wasm | head -n1)
 elif compgen -G "output/*.wasm" > /dev/null; then
   WASM_SRC=$(ls -1 output/*.wasm | head -n1)
 fi
-
 if [[ -z "${WASM_SRC}" ]]; then
-  echo "❌ Could not find built .wasm under contract/output or output" >&2
+  echo "❌ No .wasm found under contract/output or output" >&2
+  echo "Hint: ensure 'binaryen' (wasm-opt) is installed and wasm32 target is added." >&2
   exit 1
 fi
-
-cp -f "${WASM_SRC}" artifacts/wasm/
-echo "WASM -> $(pwd)/artifacts/wasm/$(basename "${WASM_SRC}")"
+cp -f "${WASM_SRC}" artifacts/wasm/foxleague-sc.wasm
+echo "WASM -> $(pwd)/artifacts/wasm/foxleague-sc.wasm"

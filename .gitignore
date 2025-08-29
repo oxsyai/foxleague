@@ -8,11 +8,6 @@
 
 # build artifacts
 artifacts/
-contract/output/
-output/
-
-# MVX/meta outputs & artifacts
-artifacts/
 output/
 contract/output/
 contract/wasm/
