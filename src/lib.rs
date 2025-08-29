@@ -56,3 +56,11 @@ pub trait ScFoxsy {
     // Paste the full version I gave you earlier into your terminal
     // between `cat > src/lib.rs <<'RS'` and `RS`.
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        assert!(true);
+    }
+}
