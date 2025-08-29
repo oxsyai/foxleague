@@ -6,7 +6,8 @@ This guide shows two ways to deploy & operate the contract:
 - **Raw `mxpy` commands** – full commands using MultiversX CLI directly
 
 Artifacts built by CI (and locally via Makefile):
-- **WASM**: `artifacts/wasm/foxleague-sc.wasm`
+
+- **WASM**: `artifacts/wasm/foxleague-sc.wasm`  
 - **ABI bundle**: `artifacts/abi/{foxleague-sc.abi.json, foxleague-sc.mxsc.json, foxleague-sc.imports.json, foxleague-sc.wasm}`
 
 ---
@@ -16,15 +17,22 @@ Artifacts built by CI (and locally via Makefile):
 ```bash
 make wasm
 make abi
+```
 
-Prereqs (for both flows)
+### Prereqs (for both flows)
+
+```bash
 python3 -m pip install -U multiversx-sdk-cli jq
 mxpy --version || true
+```
 
-1) Quickstart (scripts/ops)
+---
 
-Tip: copy scripts/ops/.env.example → scripts/ops/.env and fill values to avoid long commands.
+## 1) Quickstart (scripts/ops)
 
+> Tip: copy `scripts/ops/.env.example` → `scripts/ops/.env` and fill values to avoid long commands.
+
+```bash
 # 1) Deploy (prints & caches address at scripts/ops/.contract-address)
 SUPER_USER=erd1... MX_NETWORK=devnet MX_WALLET=~/wallets/owner.pem \
 scripts/ops/deploy.sh
@@ -47,16 +55,25 @@ scripts/ops/register.sh
 
 # 5) Read-only status (no wallet needed)
 MX_NETWORK=devnet scripts/ops/status.sh
+```
 
-2) Raw mxpy commands
-Prereqs
+---
+
+## 2) Raw `mxpy` commands
+
+### Prereqs
+
+```bash
 python3 -m pip install -U multiversx-sdk-cli jq
 export MX_NETWORK=devnet         # or: testnet | mainnet
 export MX_WALLET=~/wallets/owner.pem
 mxpy --version
 mxpy wallet bech32 --pem "$MX_WALLET"
+```
 
-Deploy (init takes super_user)
+### Deploy (init takes `super_user`)
+
+```bash
 export SUPER_USER=erd1....................................
 
 mxpy contract deploy \
@@ -73,8 +90,11 @@ mxpy contract deploy \
 # read the deployed address
 export SC_ADDRESS=$(jq -r '.contractAddress // .scAddress' ./deploy-out/deployTransaction.json)
 echo "$SC_ADDRESS"
+```
 
-Owner configuration (set once per deployment)
+### Owner configuration (set once per deployment)
+
+```bash
 # receivers
 mxpy contract call $SC_ADDRESS --function setFeesReceiver \
   --pem "$MX_WALLET" --network "$MX_NETWORK" --gas-limit=20000000 \
@@ -106,14 +126,20 @@ mxpy contract call $SC_ADDRESS --function setMinRegistrationTime \
 mxpy contract call $SC_ADDRESS --function addWhitelisted \
   --pem "$MX_WALLET" --network "$MX_NETWORK" --gas-limit=20000000 \
   --arguments erd1... --send --recall-nonce
+```
 
-Views (sanity)
+### Views (sanity)
+
+```bash
 mxpy contract query $SC_ADDRESS --function getAcceptedToken       --network "$MX_NETWORK"
 mxpy contract query $SC_ADDRESS --function getMinPrize            --network "$MX_NETWORK"
 mxpy contract query $SC_ADDRESS --function getMinRegistrationTime --network "$MX_NETWORK"
 mxpy contract query $SC_ADDRESS --function getOpenTournaments     --network "$MX_NETWORK"
+```
 
-Create a tournament (prize ESDT payment)
+### Create a tournament (prize ESDT payment)
+
+```bash
 export T_ID=1
 export NOW=$(date -u +%s)
 export START=$((NOW + 2*3600))
@@ -126,8 +152,11 @@ mxpy contract call $SC_ADDRESS --function createTournament \
   --pem "$MX_WALLET" --network "$MX_NETWORK" --gas-limit=90000000 --recall-nonce --send \
   --arguments $T_ID $START $END $REG_FEE \
   --token $TOKEN --amount $PRIZE
+```
 
-Register (fee ESDT payment)
+### Register (fee ESDT payment)
+
+```bash
 export TOURNAMENT_ID=1
 export TEAM_SETUP_ID=42
 export FEE_TO_SEND=$REG_FEE   # >= registration_fee; excess refunded
@@ -136,15 +165,14 @@ mxpy contract call $SC_ADDRESS --function register \
   --pem "$MX_WALLET" --network "$MX_NETWORK" --gas-limit=60000000 --recall-nonce --send \
   --arguments $TOURNAMENT_ID $TEAM_SETUP_ID \
   --token $TOKEN --amount $FEE_TO_SEND
+```
 
-Notes & Troubleshooting
+---
 
-Amounts are integers scaled by token decimals (e.g., 1 token @ 18 dec → 1000000000000000000).
+## Notes & Troubleshooting
 
-Enforce end - start >= minRegistrationTime, start > now.
-
-“Wrong token” → run setToken(FOXSY-xxxxxx) with the exact ESDT id.
-
-“Not whitelisted” on create → addWhitelisted(creator).
-
-CI already builds & uploads artifacts for each PR/release.
+- Amounts are **integers scaled by token decimals** (e.g., 1 token @ 18 dec → `1000000000000000000`).  
+- Enforce `end - start >= minRegistrationTime`, `start > now`.  
+- “Wrong token” → run `setToken(FOXSY-xxxxxx)` with the exact ESDT id.  
+- “Not whitelisted” → `addWhitelisted(creator)`.  
+- CI already builds & uploads artifacts for each PR/release.
