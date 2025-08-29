@@ -61,6 +61,6 @@ pub trait ScFoxsy {
 mod tests {
     #[test]
     fn it_works() {
-        assert!(true);
+        let x = 2 + 2; assert_eq!(x, 4);
     }
 }
