@@ -10,3 +10,11 @@
 artifacts/
 contract/output/
 output/
+
+# MVX/meta outputs & artifacts
+artifacts/
+output/
+contract/output/
+contract/wasm/
+scripts/ops/out/
+scripts/ops/.contract-address
