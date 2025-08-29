@@ -11,7 +11,7 @@ SHELL := /bin/bash
 VERSION ?= 0.0.0
 
 # Paths
-WASM     := target/wasm32-unknown-unknown/release/foxleague_sc.wasm
+WASM     := artifacts/wasm/foxleague-sc.wasm
 ABI_DIR  := artifacts/abi
 META_BIN := contract/meta/../../target/debug/foxleague-sc-meta
 
