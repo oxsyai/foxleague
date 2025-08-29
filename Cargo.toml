@@ -1,7 +1,8 @@
 [workspace]
+resolver = "2"
 members = [
     "contract",
-    "meta"
+    "contract/meta"
 ]
 
 [workspace.package]
@@ -10,5 +11,5 @@ edition = "2021"
 license = "MIT"
 
 [workspace.dependencies]
-multiversx-sc = "0.50"
+multiversx-sc = "0.52"
 multiversx-sc-meta = "0.50"

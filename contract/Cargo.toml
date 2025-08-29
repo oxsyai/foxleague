@@ -9,4 +9,4 @@ path = "src/lib.rs"
 crate-type = ["rlib"]
 
 [dependencies]
-multiversx-sc = "0.50"
+multiversx-sc = "0.55"

@@ -1,9 +1,0 @@
-[package]
-name = "foxleague-sc-meta"
-version = "0.1.0"
-edition = "2021"
-publish = false
-
-[dependencies]
-multiversx-sc-meta = "0.50"
-foxleague-sc = { path = "../contract" }

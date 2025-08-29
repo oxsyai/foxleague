@@ -21,7 +21,7 @@ jobs:
         run: cargo clippy --all-targets --all-features -- -D warnings
 
       - name: Tests
-        run: cargo test --all-features --verbose
+        run: cargo test --workspace --all-features --verbose
 
       - name: Build WASM
         run: bash scripts/build-wasm.sh
@@ -35,4 +35,4 @@ jobs:
           name: foxleague-artifacts
           path: |
             target/wasm32-unknown-unknown/release/foxleague_sc.wasm
-            meta/output/**
+            artifacts/abi/**
