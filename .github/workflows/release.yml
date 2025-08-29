@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Format check
+        run: cargo fmt --all -- --check
+
+      - name: Clippy (warnings as errors)
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Tests
+        run: cargo test --workspace --all-features --verbose
+
+      - name: Build WASM
+        run: bash scripts/build-wasm.sh
+
+      - name: Generate ABI
+        run: bash scripts/gen-abi.sh
+
+      - name: Create GitHub Release (attach WASM + ABI)
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            target/wasm32-unknown-unknown/release/foxleague_sc.wasm
+            artifacts/abi/**
