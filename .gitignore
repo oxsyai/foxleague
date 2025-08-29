@@ -8,5 +8,8 @@
 
 # build artifacts
 artifacts/
-contract/output/
 output/
+contract/output/
+contract/wasm/
+scripts/ops/out/
+scripts/ops/.contract-address
