@@ -5,7 +5,7 @@
 use multiversx_sc::imports::*;
 
 mod types;
-use types::{Tournament, TournamentStatus, Registration};
+use types::Tournament;
 
 #[multiversx_sc::contract]
 pub trait ScFoxsy {
@@ -55,4 +55,13 @@ pub trait ScFoxsy {
     // Due to length, I trimmed here to keep this block copyable.
     // Paste the full version I gave you earlier into your terminal
     // between `cat > src/lib.rs <<'RS'` and `RS`.
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let x = 2 + 2;
+        assert_eq!(x, 4);
+    }
 }

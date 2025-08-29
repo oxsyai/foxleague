@@ -1,0 +1,12 @@
+[package]
+name = "foxleague-sc"
+version = "0.1.1"
+edition = "2021"
+license = "MIT"
+
+[lib]
+path = "src/lib.rs"
+crate-type = ["rlib"]
+
+[dependencies]
+multiversx-sc = "0.55"

@@ -1,16 +1,16 @@
-name: Rust CI
+name: Release
 
 on:
   push:
-    branches: [ main, develop, "feature/**" ]
-  pull_request:
-    branches: [ main ]
+    tags:
+      - "v*.*.*"
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
 
@@ -29,10 +29,10 @@ jobs:
       - name: Generate ABI
         run: bash scripts/gen-abi.sh
 
-      - name: Upload artifacts (WASM + ABI)
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub Release (attach WASM + ABI)
+        uses: softprops/action-gh-release@v2
         with:
-          name: foxleague-artifacts
-          path: |
+          generate_release_notes: true
+          files: |
             target/wasm32-unknown-unknown/release/foxleague_sc.wasm
             artifacts/abi/**

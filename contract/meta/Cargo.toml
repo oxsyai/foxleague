@@ -1,0 +1,11 @@
+[package]
+name = "foxleague-sc-meta"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+multiversx-sc = "0.55"
+multiversx-sc-meta-lib = "0.55"
+multiversx-sc-meta = "0.55"
+foxleague-sc = { path = ".." }
