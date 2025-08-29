@@ -13,3 +13,4 @@ contract/output/
 contract/wasm/
 scripts/ops/out/
 scripts/ops/.contract-address
+scripts/ops/.env
