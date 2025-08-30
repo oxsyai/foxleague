@@ -63,9 +63,11 @@
 cargo check
 cargo build
 
+```
+
 ---
 
 ## Deploy
 
-See full guide in [`docs/DEPLOY.md`](docs/DEPLOY.md).
+See full guide in [docs/DEPLOY.md](docs/DEPLOY.md).
 
